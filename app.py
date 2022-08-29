@@ -1,3 +1,4 @@
+
 from flask import Flask, render_template, request, redirect, Response, url_for
 from werkzeug.exceptions import BadRequestKeyError
 
@@ -23,6 +24,7 @@ def homepage():
                 worksh = create_worksheet(workb)
 
                 clear_and_append(worksh, data_keys, data_values)
+
                 workb.close()
                 return redirect(url_for('result_page'))
             else:

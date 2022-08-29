@@ -8,7 +8,6 @@ def create_xls(json_file):
     name, __ = os.path.splitext(json_file)
 
     workbook = xlsxwriter.Workbook(f'{name}.xlsx')
-    # workbook = xlsxwriter.Workbook(f'1.xlsx')
     return workbook
 
 
