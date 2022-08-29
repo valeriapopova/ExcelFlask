@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% block title %}
+
+
+
+{% endblock %}
+
+{% block content_title %}
+    Вы можете добавить json cюда,а мы выгрузим всю информацию оттуда в excel
+{% endblock %}
+
+{% block content %}
+    <div class="col-md-6">
+        <form action="{{ url_for('homepage') }}" method="POST">
+
+            {% for field in form  %}
+                <div class="form-group">
+                    {{ field.label(class='control-label') }}
+                    {{ field(class='form-control') }}
+                </div>
+            {% endfor %}
+
+            <div class ='form-group-title'>
+                Выберите вариат записи:
+
+            <input type="submit" class="btn btn-primary mb-2" name="submit_button" value="Записать в excel">
+
+            </div>
+        </form>
+    </div>
+{% endblock %}
