@@ -17,9 +17,8 @@ def homepage():
             json_file = request.get_json(force=False)
 
             data_keys = get_data_key(json_file)
-            print(data_keys)
             data_values = get_data_value(json_file)
-            workb = create_xls(json_file)
+            workb = create_xls()
             worksh = create_worksheet(workb)
 
             clear_and_append(worksh, data_keys, data_values)

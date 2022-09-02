@@ -1,11 +1,9 @@
 import xlsxwriter
-import os.path
-import json
+
 from flask import Response
 
 
-def create_xls(json_file):
-    # name, __ = os.path.splitext(json_file)
+def create_xls():
 
     workbook = xlsxwriter.Workbook(f'random.xlsx')
     return workbook
@@ -22,8 +20,9 @@ def get_data_key(json_file):
         data_for_sheets = []
         for key in result:
             for k in key:
-                data_for_sheets.append(k)
-        return data_for_sheets
+                if k not in data_for_sheets:
+                    data_for_sheets.append(k)
+        return [data_for_sheets]
     except KeyError:
         return Response("Данные для записи не найдены", 404)
 
@@ -33,8 +32,9 @@ def get_data_value(json_file):
         result = json_file['data']
         data_for_sheets = []
         for res in result:
-            for k, v in res.items():
-                data_for_sheets.append([v])
+            r = res.values()
+            values = list(r)
+            data_for_sheets.append(values)
         return data_for_sheets
     except KeyError:
         return Response("Данные для записи не найдены", 404)
@@ -43,11 +43,13 @@ def get_data_value(json_file):
 def clear_and_append(worksheet, data_keys, data_values):
     col = 0
     for k in data_keys:
-        worksheet.write(0, col, k)
-        col += 1
-    col = 0
-    for k, v in enumerate(data_values):
-        worksheet.write_column(1, col, v)
-        col += 1
+        for data in k:
+            worksheet.write(0, col, data)
+            col += 1
+    row = 1
+    for v in data_values:
+        print(v)
+        worksheet.write_row(row, 0, v)
+        row += 1
 
 
