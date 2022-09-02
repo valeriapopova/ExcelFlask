@@ -1,9 +1,7 @@
-
-from flask import Flask, render_template, request, redirect, Response, url_for
+from flask import Flask, render_template, request, Response
 from werkzeug.exceptions import BadRequestKeyError
 
 from config import Configuration
-from forms import FileForm
 
 
 from xls import get_data_key, get_data_value, clear_and_append, create_xls, create_worksheet
@@ -12,30 +10,27 @@ app = Flask(__name__)
 app.config.from_object(Configuration)
 
 
-@app.route('/', methods=['GET', 'POST'])
+@app.route('/excel', methods=['GET', 'POST'])
 def homepage():
     if request.method == 'POST':
         try:
-            json_file = request.form['file']
-            if json_file.endswith('.json'):
-                data_keys = get_data_key(json_file)
-                data_values = get_data_value(json_file)
-                workb = create_xls(json_file)
-                worksh = create_worksheet(workb)
+            json_file = request.get_json(force=False)
 
-                clear_and_append(worksh, data_keys, data_values)
+            data_keys = get_data_key(json_file)
+            print(data_keys)
+            data_values = get_data_value(json_file)
+            workb = create_xls(json_file)
+            worksh = create_worksheet(workb)
 
-                workb.close()
-                return redirect(url_for('result_page'))
-            else:
-                return Response("Недопустимый формат файла, необходимое расширение - JSON", 404)
+            clear_and_append(worksh, data_keys, data_values)
+
+            workb.close()
+            return Response("Проверьте таблицу", 201)
+
         except BadRequestKeyError:
             return Response("Пустое значение", 400)
 
-    form = FileForm()
-    return render_template('homepage.html', form=form), 200
+    return render_template('homepage.html'), 200
 
 
-@app.route('/result')
-def result_page():
-    return render_template('resultpage.html'), 201
+
