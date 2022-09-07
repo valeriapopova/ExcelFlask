@@ -47,9 +47,15 @@ def clear_and_append(worksheet, data_keys, data_values):
             worksheet.write(0, col, data)
             col += 1
     row = 1
+    col = 0
     for v in data_values:
-        print(v)
-        worksheet.write_row(row, 0, v)
-        row += 1
-
+        if type(v) == list:
+            for values in v:
+                if type(values) == list:
+                    worksheet.write_column(row, col, values)
+                    row += 1
+                    col += 1
+                else:
+                    worksheet.write_row(row, col, v)
+                    col += 1
 
