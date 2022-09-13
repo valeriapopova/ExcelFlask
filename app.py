@@ -10,26 +10,24 @@ app = Flask(__name__)
 app.config.from_object(Configuration)
 
 
-@app.route('/excel', methods=['GET', 'POST'])
+@app.route('/excel', methods=['POST'])
 def homepage():
-    if request.method == 'POST':
-        try:
-            json_file = request.get_json(force=False)
+    try:
+        json_file = request.get_json(force=False)
 
-            data_keys = get_data_key(json_file)
-            data_values = get_data_value(json_file)
-            workb = create_xls()
-            worksh = create_worksheet(workb)
+        data_keys = get_data_key(json_file)
+        data_values = get_data_value(json_file)
+        workb = create_xls()
+        worksh = create_worksheet(workb)
 
-            clear_and_append(worksh, data_keys, data_values)
+        clear_and_append(worksh, data_keys, data_values)
 
-            workb.close()
-            return Response("Проверьте таблицу", 201)
+        workb.close()
+        return Response("Проверьте таблицу", 201)
 
-        except BadRequestKeyError:
-            return Response("Пустое значение", 400)
+    except BadRequestKeyError:
+        return Response("Пустое значение", 400)
 
-    return render_template('homepage.html'), 200
 
 
 
