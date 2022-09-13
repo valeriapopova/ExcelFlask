@@ -53,7 +53,7 @@ def clear_and_append(worksheet, data_keys, data_values):
             for values in v:
                 if type(values) == list:
                     worksheet.write_column(row, col, values)
-                    row += 1
+                    # row += 1
                     col += 1
                 else:
                     worksheet.write_row(row, col, v)
