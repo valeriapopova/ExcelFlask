@@ -7,7 +7,7 @@
 
 ___POST___
 
-_/excel_ - Добавляет данные в excel
+_/excel/post_ - Добавляет данные в excel
 
 *Parameters*
 json - данные вида:

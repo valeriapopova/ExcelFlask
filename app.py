@@ -10,7 +10,7 @@ app = Flask(__name__)
 app.config.from_object(Configuration)
 
 
-@app.route('/excel', methods=['POST'])
+@app.route('/excel/post', methods=['POST'])
 def homepage():
     try:
         json_file = request.get_json(force=False)
