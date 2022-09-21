@@ -1,12 +1,22 @@
+import os
+import random
+
 import xlsxwriter
 
 from flask import Response
 
 
 def create_xls():
+    random_integer = random.randint(1, 2147483647)
+    random_int = random.randint(1, 2147483647)
+    filename = f'{random_integer}_{random_int}.xlsx'
+    if not os.path.isdir("excel_files"):
+        os.makedirs("excel_files")
 
-    workbook = xlsxwriter.Workbook(f'random.xlsx')
+    filepath = f'excel_files/'
+    workbook = xlsxwriter.Workbook(filepath + filename)
     return workbook
+
 
 
 def create_worksheet(workbook):
