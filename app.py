@@ -1,8 +1,6 @@
-import io
-from io import BytesIO
 
-from flask import Flask, render_template, request, Response
-from openpyxl.writer.excel import save_virtual_workbook
+from flask import Flask, request, Response
+
 from werkzeug.exceptions import BadRequestKeyError
 
 from config import Configuration
